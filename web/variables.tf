@@ -15,7 +15,7 @@ variable "rg_name" {
 variable "sa_name" {
   description = "The name of the storage account"
   type        = string
-  default     = "sa-web"
+  default     = "saweb"
 
 }
 
