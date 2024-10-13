@@ -47,4 +47,4 @@ output "primary_web_endpoint" {
 
 }
 
-# Destroy the resources
+#Destroy
