@@ -75,7 +75,7 @@ jobs:
 
       - name: Terraform workspace select or create prod
         run: terraform workspace select prod || terraform workspace new prod
-        working-directory: $// env.WORKING_DIR }}
+        working-directory: ${{ env.WORKING_DIR }}
 
       - name: Terraform apply prod
         run: terraform apply -auto-approve
