@@ -7,20 +7,18 @@ on:
   workflow_dispatch:
 
 env:
-      ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-      ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
-      ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-      ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-      WORKING_DIR: ./web
-
-  
+  ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+  ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+  ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+  ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+  WORKING_DIR: ./web
 
 jobs:
   dev_stage:
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout
-      - uses: actions/checkout@v3
+        uses: actions/checkout@v3
 
       - name: Terraform init
         run: terraform init
@@ -47,15 +45,19 @@ jobs:
 
       - name: Terraform init
         run: terraform init
-        working-directory: $// env.WORKING_DIR }}
+        working-directory: ${{ env.WORKING_DIR }}
 
       - name: Terraform workspace select or create stage
-        run: terraform workspave select stage || terraform workspace new stage
-        working-directory: $// env.WORKING_DIR }}
+        run: terraform workspace select stage || terraform workspace new stage
+        working-directory: ${{ env.WORKING_DIR }}
 
       - name: Terraform apply stage
         run: curl $(terraform output -raw primary_web_endpoint)
-        working-directory: $// env.WORKING_DIR }}
+        working-directory: ${{ env.WORKING_DIR }}
+
+      - name: Test stage
+        run: curl $(terraform output -raw primary_web_endpoint)
+        working-directory: ${{ env.WORKING_DIR }}
 
   prod:
     needs: stage_prod
@@ -64,47 +66,26 @@ jobs:
       name: production
       url: ${{ steps.get_web_endpoint.outputs.WEB_ENDPOINT }}
     steps:
-     - name: Checkout
-       uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
 
-     - name: Terraform init
-       run: terraform init
-       working-directory: $// env.WORKING_DIR }}
+      - name: Terraform init
+        run: terraform init
+        working-directory: ${{ env.WORKING_DIR }}
 
-     - name: Terraform workspace select or create prod
-       run: terraform workspave select prod || terraform workspace new prod
-       working-directory: $// env.WORKING_DIR }}  
+      - name: Terraform workspace select or create prod
+        run: terraform workspace select prod || terraform workspace new prod
+        working-directory: $// env.WORKING_DIR }}
 
-     - name: Terraform apply prod
-       run: terraform apply -auto-approve
-       working-directory: ${{ env.WORKING_DIR }}
+      - name: Terraform apply prod
+        run: terraform apply -auto-approve
+        working-directory: ${{ env.WORKING_DIR }}
 
-     - name: Test prod
-       run: curl $(terraform output -raw primary_web_endpoint)
-       working-directory: ${{ env.WORKING_DIR }}
+      - name: Test prod
+        run: curl $(terraform output -raw primary_web_endpoint)
+        working-directory: ${{ env.WORKING_DIR }}
 
-     - name: Get Web Endpoint
-       id: get_web_endpoint
-       run: echo "WEB_ENDPOINT=$(terraform output -raw primary_web_endpoint)"
-       working-directory: ${{ env.WORKING_DIR }}
-
-
-
-
-
-
-
-
-
-
-       
-    
-    
-
-       
-
-    
-
-     
- 
-        
+      - name: Get Web Endpoint
+        id: get_web_endpoint
+        run: echo "WEB_ENDPOINT=$(terraform output -raw primary_web_endpoint)"
+        working-directory: ${{ env.WORKING_DIR }}
