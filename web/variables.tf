@@ -33,6 +33,3 @@ variable "index_document" {
 
 }
 
-variable "subscription_id" {
-  type = string
-}
