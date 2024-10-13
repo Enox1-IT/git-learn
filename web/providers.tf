@@ -9,7 +9,7 @@ terraform {
 
 terraform {
   backend "azurerm" {
-    subscription_id      = var.subscription_id
+    subscription_id      = "efc1e7b1-5729-4eea-b33e-12cc6b1c0183"
     resource_group_name  = "backend-enox1-rg"            # Can be passed via `-backend-config=`"resource_group_name=<resource group name>"` in the `init` command.
     storage_account_name = "backendstorageenox17adra"    # Can be passed via `-backend-config=`"storage_account_name=<storage account name>"` in the `init` command.
     container_name       = "backendenox1sc"              # Can be passed via `-backend-config=`"container_name=<container name>"` in the `init` command.
@@ -18,7 +18,7 @@ terraform {
 }
 
 provider "azurerm" {
-  subscription_id = var.subscription_id
+  subscription_id = "efc1e7b1-5729-4eea-b33e-12cc6b1c0183"
   features {
 
   }
