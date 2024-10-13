@@ -32,6 +32,7 @@ jobs:
       - name: "Terrraform init"
         id: init
         run: terraform init
+        working-directory: ${{ env.WORKING_DIR }}
 
       - name: "Terraform plan"
         id: plan
